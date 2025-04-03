@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db/mongodb';
+import { type NextRequest, NextResponse } from 'next/server';
 import { Vocabulary } from '@/lib/db/models/vocabulary';
 
 interface Params {
