@@ -36,8 +36,8 @@ export function GameCard() {
   if (gameState.isLoading) {
     return (
       <Card className="w-full max-w-3xl mx-auto">
-        <CardContent className="p-6 flex justify-center items-center h-64">
-          <p>Loading vocabulary...</p>
+        <CardContent className="p-4 sm:p-6 flex justify-center items-center h-64">
+          <p className="text-sm sm:text-base">Loading vocabulary...</p>
         </CardContent>
       </Card>
     );
@@ -46,9 +46,9 @@ export function GameCard() {
   if (gameState.error) {
     return (
       <Card className="w-full max-w-3xl mx-auto">
-        <CardContent className="p-6 flex flex-col justify-center items-center h-64 gap-4">
-          <p className="text-red-500">{gameState.error}</p>
-          <Button onClick={() => changeLevel(gameState.level)}>
+        <CardContent className="p-4 sm:p-6 flex flex-col justify-center items-center h-64 gap-3">
+          <p className="text-red-500 text-sm sm:text-base text-center">{gameState.error}</p>
+          <Button onClick={() => changeLevel(gameState.level)} className="text-sm sm:text-base">
             Try Again
           </Button>
         </CardContent>
@@ -56,13 +56,12 @@ export function GameCard() {
     );
   }
 
-  // Check if all words are completed
   if (!gameState.currentWord && gameState.completedWords.length > 0) {
     return (
       <Card className="w-full max-w-3xl mx-auto">
-        <CardContent className="p-6 flex flex-col justify-center items-center h-64 gap-4">
-          <p className="text-xl">Congratulations! You've completed all words in this level!</p>
-          <Button onClick={restartGame}>
+        <CardContent className="p-4 sm:p-6 flex flex-col justify-center items-center h-64 gap-3">
+          <p className="text-lg sm:text-xl text-center">Congratulations! You've completed all words in this level!</p>
+          <Button onClick={restartGame} className="text-sm sm:text-base">
             Play Again
           </Button>
         </CardContent>
@@ -70,93 +69,98 @@ export function GameCard() {
     );
   }
 
-  // If there are no words available for the selected level
-if (gameState.totalWords === 0 && gameState.level) {
-  return (
-    <Card className="w-full max-w-3xl mx-auto">
-      <CardContent className="p-6 flex flex-col justify-center items-center h-64 gap-4">
-        <p className="text-xl">No words available for level {gameState.level}. Please select another level.</p>
-        <Tabs defaultValue={gameState.level} onValueChange={handleLevelChange}>
-          <TabsList>
-            <TabsTrigger value="A1">A1</TabsTrigger>
-            <TabsTrigger value="A2">A2</TabsTrigger>
-            <TabsTrigger value="B1">B1</TabsTrigger>
-            <TabsTrigger value="B2">B2</TabsTrigger>
-            <TabsTrigger value="C1">C1</TabsTrigger>
-            <TabsTrigger value="C2">C2</TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </CardContent>
-    </Card>
-  );
-}
-
-  
-
-  return (
-    <Card className="w-full max-w-3xl mx-auto">
-      <CardHeader className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6">
-        <div className="flex items-center justify-between">
-          <CardTitle>English Vocabulary Game</CardTitle>
+  if (gameState.totalWords === 0 && gameState.level) {
+    return (
+      <Card className="w-full max-w-3xl mx-auto">
+        <CardContent className="p-4 sm:p-6 flex flex-col justify-center items-center h-64 gap-3">
+          <p className="text-lg sm:text-xl text-center">No words available for level {gameState.level}. Please select another level.</p>
           <Tabs defaultValue={gameState.level} onValueChange={handleLevelChange}>
-            <TabsList>
-              <TabsTrigger value="A1">A1</TabsTrigger>
-              <TabsTrigger value="A2">A2</TabsTrigger>
-              <TabsTrigger value="B1">B1</TabsTrigger>
-              <TabsTrigger value="B2">B2</TabsTrigger>
-              <TabsTrigger value="C1">C1</TabsTrigger>
-              <TabsTrigger value="C2">C2</TabsTrigger>
+            <TabsList className="flex-wrap gap-2">
+              <TabsTrigger value="A1" className="text-xs sm:text-sm">A1</TabsTrigger>
+              <TabsTrigger value="A2" className="text-xs sm:text-sm">A2</TabsTrigger>
+              <TabsTrigger value="B1" className="text-xs sm:text-sm">B1</TabsTrigger>
+              <TabsTrigger value="B2" className="text-xs sm:text-sm">B2</TabsTrigger>
+              <TabsTrigger value="C1" className="text-xs sm:text-sm">C1</TabsTrigger>
+              <TabsTrigger value="C2" className="text-xs sm:text-sm">C2</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="w-full max-w-3xl mx-auto">
+      <CardHeader className="px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <CardTitle className="text-lg sm:text-xl md:text-2xl">English Vocabulary Game</CardTitle>
+          <Tabs defaultValue={gameState.level} onValueChange={handleLevelChange}>
+            <TabsList className="flex-wrap gap-1">
+              <TabsTrigger value="A1" className="text-xs sm:text-sm">A1</TabsTrigger>
+              <TabsTrigger value="A2" className="text-xs sm:text-sm">A2</TabsTrigger>
+              <TabsTrigger value="B1" className="text-xs sm:text-sm">B1</TabsTrigger>
+              <TabsTrigger value="B2" className="text-xs sm:text-sm">B2</TabsTrigger>
+              <TabsTrigger value="C1" className="text-xs sm:text-sm">C1</TabsTrigger>
+              <TabsTrigger value="C2" className="text-xs sm:text-sm">C2</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
       </CardHeader>
-      <CardContent className="px-6">
-        <div className="mb-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <h2 className="text-2xl font-bold">{gameState.currentWord?.english}</h2>
+      <CardContent className="px-4 sm:px-6">
+        <div className="mb-6 sm:mb-8 text-center">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <h2 className="text-xl sm:text-2xl font-bold">{gameState.currentWord?.english}</h2>
             <Button
               size="icon"
               variant="outline"
               title="Speak word"
+              className="h-8 w-8 sm:h-10 sm:w-10"
               onClick={() => speakWord(gameState.currentWord?.english || '')}
             >
               🔊
             </Button>
           </div>
-          <p className="text-sm text-gray-500">Choose the correct Thai translation</p>
+          <p className="text-xs sm:text-sm text-gray-500">Choose the correct Thai translation</p>
           {showingAnswer && (
-            <p className="text-green-500 font-bold mt-2">
+            <p className="text-green-500 font-bold mt-2 text-sm sm:text-base">
               Answer: {gameState.currentWord?.thai}
             </p>
           )}
         </div>
         
-        <div className="grid grid-cols-2 gap-3">
-  {gameState.options.map((option) => (
-    <AnswerButton
-      key={option}
-      option={option}
-      onSelect={checkAnswer}
-      currentWord={gameState.currentWord?.english || ''} // ส่งคำศัพท์ปัจจุบันไปเพื่อให้รู้ว่าเปลี่ยนคำศัพท์
-    />
-  ))}
-</div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
+          {gameState.options.map((option) => (
+            <AnswerButton
+              key={option}
+              option={option}
+              onSelect={checkAnswer}
+              currentWord={gameState.currentWord?.english || ''}
+            />
+          ))}
+        </div>
       </CardContent>
-      <CardFooter className="items-center px-6 flex justify-between">
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={handleShowAnswer}>
+      <CardFooter className="px-4 sm:px-6 flex flex-col-reverse sm:flex-row justify-between gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button 
+            variant="outline" 
+            onClick={handleShowAnswer}
+            className="text-sm sm:text-base py-1.5 px-3 sm:py-2 sm:px-4"
+          >
             Show Answer
           </Button>
-          <Button variant="outline" onClick={restartGame}>
+          <Button 
+            variant="outline" 
+            onClick={restartGame}
+            className="text-sm sm:text-base py-1.5 px-3 sm:py-2 sm:px-4"
+          >
             Restart
           </Button>
         </div>
-        <div>
-          <p className="text-sm text-gray-500">
+        <div className="w-full sm:w-auto">
+          <p className="text-xs sm:text-sm text-gray-500 text-center sm:text-right">
             Words completed: {gameState.completedWords.length}/{gameState.totalWords}
           </p>
-          <Progress className="mt-2" value={completionPercentage} />
+          <Progress className="mt-2 h-2 sm:h-3" value={completionPercentage} />
         </div>
       </CardFooter>
     </Card>
