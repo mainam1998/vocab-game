@@ -30,8 +30,8 @@ export async function connectToDatabase() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 5000, // เพิ่มเวลาในการเลือกเซิร์ฟเวอร์
-      connectTimeoutMS: 10000, // เพิ่มเวลาในการเชื่อมต่อ
+      serverSelectionTimeoutMS: 9000, // เพิ่มเวลาในการเลือกเซิร์ฟเวอร์
+      connectTimeoutMS: 90000, // เพิ่มเวลาในการเชื่อมต่อ
     };
 
     try {
