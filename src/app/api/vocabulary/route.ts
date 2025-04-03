@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db/mongodb';
+import { type NextRequest, NextResponse } from 'next/server';
 import { Vocabulary } from '@/lib/db/models/vocabulary';
 
 // GET /api/vocabulary?level=A1 - Get all vocabulary items or filter by level
