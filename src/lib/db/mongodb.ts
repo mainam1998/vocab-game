@@ -20,14 +20,18 @@ global.mongooseGlobal = cached;
 export async function connectToDatabase() {
   console.log('Attempting to connect to MongoDB...'); // Log เมื่อเริ่มการเชื่อมต่อ
 
+  // ถ้ามีการเชื่อมต่อในแคชแล้วให้ใช้งานเลย
   if (cached.conn) {
     console.log('Using cached MongoDB connection');  // Log ถ้าใช้การเชื่อมต่อที่เก็บในแคช
     return cached.conn;
   }
 
+  // ถ้ายังไม่มี promise สำหรับการเชื่อมต่อ
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000, // เพิ่มเวลาในการเลือกเซิร์ฟเวอร์
+      connectTimeoutMS: 10000, // เพิ่มเวลาในการเชื่อมต่อ
     };
 
     try {
@@ -47,6 +51,7 @@ export async function connectToDatabase() {
   }
 
   try {
+    // รอการเชื่อมต่อแล้วเก็บไว้ในแคช
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
