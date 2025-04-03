@@ -42,6 +42,7 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
 
   const { toast } = useToast();
 
+  // ฟังก์ชันจัดการการคลิกปุ่ม Edit
   const handleEdit = (word: IVocabulary) => {
     setSelectedWord(word);
     setEditForm({
@@ -53,11 +54,13 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
     setEditDialogOpen(true);
   };
 
+  // ฟังก์ชันจัดการการคลิกปุ่ม Delete
   const handleDelete = (word: IVocabulary) => {
     setSelectedWord(word);
     setDeleteDialogOpen(true);
   };
 
+  // ฟังก์ชันส่งฟอร์มแก้ไข
   const handleUpdateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -80,7 +83,6 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
           title: 'Success',
           description: 'Word updated successfully',
         });
-
         setEditDialogOpen(false);
       } else {
         toast({
@@ -100,6 +102,7 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
     }
   };
 
+  // ฟังก์ชันยืนยันการลบ
   const handleDeleteSubmit = async () => {
     if (!selectedWord || !selectedWord._id) {
       return;
@@ -115,7 +118,6 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
           title: 'Success',
           description: 'Word deleted successfully',
         });
-
         setDeleteDialogOpen(false);
       } else {
         toast({
@@ -137,47 +139,58 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
 
   return (
     <>
-      <div className="rounded-md border">
-        <Table>
+      <div className="rounded-md border overflow-x-auto">
+        <Table className="min-w-[600px] sm:min-w-full">
           <TableHeader>
             <TableRow>
-              <TableHead>English</TableHead>
-              <TableHead>Thai</TableHead>
-              <TableHead>Level</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="text-sm sm:text-base">English</TableHead>
+              <TableHead className="text-sm sm:text-base">Thai</TableHead>
+              <TableHead className="text-sm sm:text-base">Level</TableHead>
+              <TableHead className="text-sm sm:text-base">Category</TableHead>
+              <TableHead className="text-right text-sm sm:text-base">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {vocabularies.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center py-6">
-                  No vocabulary items found
+                <TableCell colSpan={5} className="text-center py-4 sm:py-6">
+                  <p className="text-sm sm:text-base">No vocabulary items found</p>
                 </TableCell>
               </TableRow>
             ) : (
               vocabularies.map((word) => (
                 <TableRow key={word._id}>
-                  <TableCell>{word.english}</TableCell>
-                  <TableCell>{word.thai}</TableCell>
-                  <TableCell>{word.level}</TableCell>
-                  <TableCell>{word.category || '-'}</TableCell>
-                  <TableCell className="text-right space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(word)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-red-500"
-                      onClick={() => handleDelete(word)}
-                    >
-                      Delete
-                    </Button>
+                  <TableCell className="py-2 sm:py-4 text-sm sm:text-base max-w-[150px] truncate">
+                    {word.english}
+                  </TableCell>
+                  <TableCell className="py-2 sm:py-4 text-sm sm:text-base max-w-[150px] truncate">
+                    {word.thai}
+                  </TableCell>
+                  <TableCell className="py-2 sm:py-4 text-sm sm:text-base">
+                    {word.level}
+                  </TableCell>
+                  <TableCell className="py-2 sm:py-4 text-sm sm:text-base max-w-[100px] truncate">
+                    {word.category || '-'}
+                  </TableCell>
+                  <TableCell className="py-2 sm:py-4 text-right">
+                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 justify-end">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-xs sm:text-sm"
+                        onClick={() => handleEdit(word)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-red-500 text-xs sm:text-sm"
+                        onClick={() => handleDelete(word)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
@@ -188,42 +201,42 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
 
       {/* Edit Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-[95%] sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Edit Vocabulary</DialogTitle>
+            <DialogTitle className="text-lg sm:text-xl">Edit Vocabulary</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleUpdateSubmit} className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <label htmlFor="edit-english" className="text-right">
+          <form onSubmit={handleUpdateSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="edit-english" className="text-sm sm:text-base">
                 English
               </label>
               <Input
                 id="edit-english"
-                className="col-span-3"
+                className="w-full text-sm sm:text-base"
                 value={editForm.english}
                 onChange={(e) => setEditForm({ ...editForm, english: e.target.value })}
                 required
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <label htmlFor="edit-thai" className="text-right">
+            <div className="space-y-2">
+              <label htmlFor="edit-thai" className="text-sm sm:text-base">
                 Thai
               </label>
               <Input
                 id="edit-thai"
-                className="col-span-3"
+                className="w-full text-sm sm:text-base"
                 value={editForm.thai}
                 onChange={(e) => setEditForm({ ...editForm, thai: e.target.value })}
                 required
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <label htmlFor="edit-level" className="text-right">
+            <div className="space-y-2">
+              <label htmlFor="edit-level" className="text-sm sm:text-base">
                 Level
               </label>
               <select
                 id="edit-level"
-                className="col-span-3 border rounded-md px-3 py-2"
+                className="w-full border rounded-md px-3 py-2 text-sm sm:text-base"
                 value={editForm.level}
                 onChange={(e) => setEditForm({ ...editForm, level: e.target.value })}
                 required
@@ -236,19 +249,23 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
                 <option value="C2">C2</option>
               </select>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <label htmlFor="edit-category" className="text-right">
+            <div className="space-y-2">
+              <label htmlFor="edit-category" className="text-sm sm:text-base">
                 Category
               </label>
               <Input
                 id="edit-category"
-                className="col-span-3"
+                className="w-full text-sm sm:text-base"
                 value={editForm.category}
                 onChange={(e) => setEditForm({ ...editForm, category: e.target.value })}
               />
             </div>
-            <DialogFooter>
-              <Button type="submit" disabled={isSubmitting}>
+            <DialogFooter className="gap-2 sm:gap-4">
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full sm:w-auto text-sm sm:text-base"
+              >
                 {isSubmitting ? 'Saving...' : 'Save changes'}
               </Button>
             </DialogFooter>
@@ -258,18 +275,19 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-[95%] sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Confirm Deletion</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-lg sm:text-xl">Confirm Deletion</DialogTitle>
+            <DialogDescription className="text-sm sm:text-base">
               Are you sure you want to delete "{selectedWord?.english}"? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="mt-6">
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-4">
             <Button
               variant="outline"
               onClick={() => setDeleteDialogOpen(false)}
               disabled={isSubmitting}
+              className="w-full sm:w-auto text-sm sm:text-base"
             >
               Cancel
             </Button>
@@ -277,6 +295,7 @@ export function VocabularyTable({ vocabularies, onDeleteWord, onUpdateWord }: Vo
               variant="destructive"
               onClick={handleDeleteSubmit}
               disabled={isSubmitting}
+              className="w-full sm:w-auto text-sm sm:text-base"
             >
               {isSubmitting ? 'Deleting...' : 'Delete'}
             </Button>
